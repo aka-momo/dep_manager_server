@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  namespace :api do
+  namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      post 'packages/fetch'
+      resources :packages do
+        post :fetch, on: :collection
+      end
     end
   end
 
