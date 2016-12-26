@@ -8,4 +8,6 @@ class SystemDependency < ApplicationRecord
 
 	# Validations
 	validates :name, :presence => true
+  validates :name, uniqueness: { scope: [:operating_system, :package_id] ,
+    message: "Package already exists for this language" }
 end

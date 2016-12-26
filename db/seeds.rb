@@ -22,3 +22,8 @@ mac_dependencies.each do |d|
 	p1.system_dependencies.build(name: d, operating_system: 1)
 end
 p1.save!
+
+
+p2 = Package.new(language: 1, name: 'pg', source_url: 'https://github.com/ged/ruby-pg')
+p2.system_dependencies.build(name: 'postgresql', operating_system: 1)
+p2.save!
