@@ -1,0 +1,14 @@
+%tr{id: "package-#{package.id}"}
+  %td{:align => "center"}
+    = link_to edit_package_path(package), remote: true , class: 'btn btn-primary' do
+      %em.fa.fa-pencil
+    = link_to package_path(package), method: :delete, remote: true , class: 'btn btn-danger' do
+      %em.fa.fa-trash
+  %td= package.name
+  %td= package.language
+  %td= package.source_url
+  %td
+    %div
+      - package.system_dependencies.each do |sd|
+        %h6
+          = sd.name + "(#{sd.operating_system})"

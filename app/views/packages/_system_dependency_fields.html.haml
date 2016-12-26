@@ -1,0 +1,10 @@
+.nested-fields
+  .div{style: "padding:5px ; margin: 5px; border: solid 1px #414042;"}
+    .form-group
+      = f.text_field :name, class: 'form-control', placeholder: 'Dependency Name'
+    .form-group
+      = f.select :operating_system, SystemDependency.operating_systems.keys, {prompt: 'Select OS'}, class: 'form-control'
+    .form-group
+      = link_to_remove_association f, class: 'btn btn-danger btn-sm' do
+        %em.fa.fa-minus
+        Remove
