@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   end
 
   resources :packages
+  root to: 'packages#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

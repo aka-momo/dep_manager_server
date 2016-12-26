@@ -4,5 +4,18 @@
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}
   %body
-    = yield
+    .container
+      .row{style: 'margin-bottom: 100px'}
+        %nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
+          %button.navbar-toggler.hidden-lg-up{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
+          #navbarResponsive.collapse.navbar-toggleable-md
+            %a.navbar-brand{:href => "#"} Dependency Portal
+            %ul.nav.navbar-nav
+              %li.nav-item.active
+                %a.nav-link{:href => "#"} Home
+              %li.nav-item
+                %a.nav-link{:href => "#"} About
+      .row
+        = yield

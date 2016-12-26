@@ -4,7 +4,9 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @packages = Package.all
+    filter_params = {}
+    filter_params.merge!(language: params[:language]) if params[:language].present?
+    @packages = Package.where(filter_params).page(params[:page]).per(5)
   end
 
   # GET /packages/1
@@ -15,10 +17,17 @@ class PackagesController < ApplicationController
   # GET /packages/new
   def new
     @package = Package.new
+    @package.system_dependencies.build
+    respond_to do |format|
+      format.js
+    end
   end
 
   # GET /packages/1/edit
   def edit
+    respond_to do |format|
+      format.js { render :new }
+    end
   end
 
   # POST /packages
@@ -28,11 +37,10 @@ class PackagesController < ApplicationController
 
     respond_to do |format|
       if @package.save
-        format.html { redirect_to @package, notice: 'Package was successfully created.' }
-        format.json { render :show, status: :created, location: @package }
+        format.js
       else
-        format.html { render :new }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
+        @package.system_dependencies.build if @package.system_dependencies.empty?
+        format.js { render :new }
       end
     end
   end
@@ -42,11 +50,9 @@ class PackagesController < ApplicationController
   def update
     respond_to do |format|
       if @package.update(package_params)
-        format.html { redirect_to @package, notice: 'Package was successfully updated.' }
-        format.json { render :show, status: :ok, location: @package }
+        format.js
       else
-        format.html { render :edit }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
+        format.js { render :new}
       end
     end
   end
@@ -56,8 +62,7 @@ class PackagesController < ApplicationController
   def destroy
     @package.destroy
     respond_to do |format|
-      format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
-      format.json { head :no_content }
+      format.js
     end
   end
 
@@ -69,6 +74,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.require(:package).permit(:name, :language, :source_url)
+      params.require(:package).permit(:name, :language, :source_url, system_dependencies_attributes: [:id, :name, :operating_system, :_destroy])
     end
 end
