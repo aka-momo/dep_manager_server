@@ -1,0 +1,19 @@
+= form_for @package do |f|
+  - if @package.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@package.errors.count, "error")} prohibited this package from being saved:"
+      %ul
+        - @package.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :language
+    = f.number_field :language
+  .field
+    = f.label :source_url
+    = f.text_field :source_url
+  .actions
+    = f.submit 'Save'
