@@ -2,10 +2,10 @@
 
 one:
   name: MyString
-  package_id: 
+  package_id: 1
   operating_system: 1
 
 two:
   name: MyString
-  package_id: 
+  package_id: 1
   operating_system: 1
