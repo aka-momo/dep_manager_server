@@ -19,6 +19,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'cocoon', '~> 1.2', '>= 1.2.9'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -36,8 +38,6 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 gem 'haml-rails', '~> 0.9'
 gem 'kaminari', '~> 0.17.0'
-gem 'cocoon', '~> 1.2', '>= 1.2.9'
-gem 'bootstrap', '~> 4.0.0.alpha5'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

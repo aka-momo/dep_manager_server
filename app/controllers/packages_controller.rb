@@ -1,17 +1,12 @@
 class PackagesController < ApplicationController
-  before_action :set_package, only: [:show, :edit, :update, :destroy]
+  before_action :set_package, only: [:edit, :update, :destroy]
 
   # GET /packages
   # GET /packages.json
   def index
     filter_params = {}
-    filter_params.merge!(language: params[:language]) if params[:language].present?
+    filter_params[:language] if params[:language].present?
     @packages = Package.where(filter_params).page(params[:page]).per(5)
-  end
-
-  # GET /packages/1
-  # GET /packages/1.json
-  def show
   end
 
   # GET /packages/new
@@ -34,12 +29,13 @@ class PackagesController < ApplicationController
   # POST /packages.json
   def create
     @package = Package.new(package_params)
-
     respond_to do |format|
       if @package.save
         format.js
       else
-        @package.system_dependencies.build if @package.system_dependencies.empty?
+        if @package.system_dependencies.empty?
+          @package.system_dependencies.build
+        end
         format.js { render :new }
       end
     end
@@ -52,7 +48,7 @@ class PackagesController < ApplicationController
       if @package.update(package_params)
         format.js
       else
-        format.js { render :new}
+        format.js { render :new }
       end
     end
   end
@@ -67,13 +63,20 @@ class PackagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_package
-      @package = Package.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def package_params
-      params.require(:package).permit(:name, :language, :source_url, system_dependencies_attributes: [:id, :name, :operating_system, :_destroy])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_package
+    @package = Package.find(params[:id])
+  end
+
+  def package_params
+    params.require(:package)
+          .permit(:name, :language, :source_url,
+                  system_dependencies_attributes: [
+                    :id,
+                    :name,
+                    :operating_system,
+                    :_destroy
+                  ])
+  end
 end
